@@ -1,0 +1,52 @@
+# Node modules
+client/node_modules/
+
+# Build output
+client/build/
+client/dist/
+
+# Log files
+*.log
+
+# Environment files
+.env
+*.env
+
+# Python virtual environments
+server/.venv/
+venv/
+ENV/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# SQLite databases
+server/*.db
+*.db
+
+# Compiled Python files
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# IDE/editor configs
+.idea/
+.vscode/
+
+# OS metadata files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.bak
+*.swp
+*.tmp
+
+# Package lock file (optional, if you want clean installs)
+# client/package-lock.json
