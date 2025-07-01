@@ -6,7 +6,6 @@ from WindowsNetworkScanner import WindowsNetworkScanner
 from VulnerabilityDatabase import match_vulnerabilities, generate_vulnerability_report_json
 from datetime import datetime
 import json
-import pandas as pd
 from io import BytesIO
 import socket
 import os
