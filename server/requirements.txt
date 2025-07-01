@@ -1,5 +1,4 @@
 Flask==2.3.3
 flask-cors==4.0.0
-pythoncom==1.0  # this is part of pywin32
 wmi==1.5.1
 pywin32==306
