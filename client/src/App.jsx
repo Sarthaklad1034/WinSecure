@@ -96,6 +96,8 @@ import VulnerabilityAssessmentPage from './components/Dashboard/VulnerabilityAss
 import DashboardOverview from './components/Dashboard/DashboardOverview';
 import ReportsSection from './components/Dashboard/ReportsSection';
 import ProfileSection from './components/Dashboard/ProfileSection';
+import './App.css'; // or './index.css'
+
 
 // Protected Route Component for Tester Authentication
 const ProtectedRoute = ({ children }) => {

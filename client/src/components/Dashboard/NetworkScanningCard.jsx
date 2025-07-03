@@ -1,286 +1,4 @@
-// import React, { useState } from 'react';
-// import styles from './css/VulnerabilityAssessment.module.css';
-
-// const NetworkScanningCard = ({ onComplete, isDisabled, targetIP }) => {
-//     const [isScanning, setIsScanning] = useState(false);
-//     const [scanResults, setScanResults] = useState(null);
-//     const [isCardCompleted, setIsCardCompleted] = useState(false);
-
-//     console.log("Using targetIP:", targetIP);
-
-//     const handleStartScan = () => {
-//         setIsScanning(true);
-
-//         fetch('http://localhost:5000/network-scan', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({ ip_address: targetIP })
-//         })
-//         .then(response => {
-//             if (!response.ok) {
-//                 return response.json().then(errorData => {
-//                     throw new Error(errorData.message || 'Network scan failed');
-//                 });
-//             }
-//             return response.text(); // Get plain text response (e.g., nmap results)
-//         })
-//         .then(scanResultText => {
-//             setScanResults(scanResultText);
-
-//             // Download logic
-//             const blob = new Blob([scanResultText], { type: 'text/plain' });
-//             const url = window.URL.createObjectURL(blob);
-//             const a = document.createElement('a');
-//             a.style.display = 'none';
-//             a.href = url;
-//             a.download = `network_scan_${targetIP.replace(/\./g, '_')}.txt`;
-//             document.body.appendChild(a);
-//             a.click();
-//             window.URL.revokeObjectURL(url);
-
-//             setIsScanning(false);
-//             setIsCardCompleted(true);
-//             onComplete(scanResultText); // Send result to parent
-//         })
-//         .catch(error => {
-//             console.error('Network Scan Error:', error);
-//             alert(`Network Scan Failed: ${error.message}`);
-//             setIsScanning(false);
-//         });
-//     };
-
-//     return (
-//         <div className={`${styles.card} ${isDisabled ? styles.disabledCard : ''}`} style={{ position: 'relative', overflow: 'hidden', minHeight: '200px' }}>
-//             <h2 className={styles.cardTitle}>2. Network Scanning</h2>
-
-//             <div className={styles.cardContent}>
-//                 <p>Perform network scanning for {targetIP}</p>
-
-//                 <button
-//                     onClick={handleStartScan}
-//                     className={styles.cardButton}
-//                     disabled={isDisabled || isScanning || isCardCompleted}
-//                 >
-//                     {isCardCompleted
-//                         ? 'Completed'
-//                         : isScanning
-//                         ? 'Scanning...'
-//                         : 'Start Network Scan'}
-//                 </button>
-//             </div>
-
-//             {/* Processing overlay with blue theme - matching other cards dimensions */}
-//             {isScanning && (
-//                 <div style={{
-//                     position: 'absolute',
-//                     top: 0,
-//                     left: 0,
-//                     right: 0,
-//                     bottom: 0,
-//                     background: 'white',
-//                     display: 'flex',
-//                     flexDirection: 'column',
-//                     alignItems: 'center',
-//                     justifyContent: 'center',
-//                     borderRadius: 'inherit',
-//                     zIndex: 10,
-//                     minHeight: '200px'
-//                 }}>
-//                     <div style={{
-//                         width: '60px',
-//                         height: '60px',
-//                         border: '4px solid #e3f2fd',
-//                         borderTop: '4px solid #2196F3',
-//                         borderRadius: '50%',
-//                         animation: 'spin 1s linear infinite',
-//                         margin: '0 auto 20px'
-//                     }}></div>
-//                     <h3 style={{
-//                         margin: '0 0 10px 0',
-//                         color: '#1976D2',
-//                         fontSize: '18px',
-//                         fontWeight: '600'
-//                     }}>
-//                         Scanning Network
-//                     </h3>
-//                     <p style={{
-//                         margin: 0,
-//                         color: '#666',
-//                         fontSize: '14px'
-//                     }}>
-//                         Discovering open ports and services...
-//                     </p>
-//                 </div>
-//             )}
-
-//             {/* Completion overlay with green theme - matching other cards dimensions */}
-//             {isCardCompleted && (
-//                 <div style={{
-//                     position: 'absolute',
-//                     top: 0,
-//                     left: 0,
-//                     right: 0,
-//                     bottom: 0,
-//                     background: 'white',
-//                     display: 'flex',
-//                     flexDirection: 'column',
-//                     alignItems: 'center',
-//                     justifyContent: 'center',
-//                     borderRadius: 'inherit',
-//                     zIndex: 10,
-//                     minHeight: '200px'
-//                 }}>
-//                     <div style={{
-//                         width: '60px',
-//                         height: '60px',
-//                         backgroundColor: '#4CAF50',
-//                         borderRadius: '50%',
-//                         display: 'flex',
-//                         alignItems: 'center',
-//                         justifyContent: 'center',
-//                         margin: '0 auto 20px',
-//                         color: 'white',
-//                         fontSize: '24px',
-//                         fontWeight: 'bold'
-//                     }}>
-//                         ✓
-//                     </div>
-//                     <h3 style={{
-//                         margin: '0 0 10px 0',
-//                         color: '#2E7D32',
-//                         fontSize: '18px',
-//                         fontWeight: '600'
-//                     }}>
-//                         Scan Complete
-//                     </h3>
-//                     <p style={{
-//                         margin: 0,
-//                         color: '#666',
-//                         fontSize: '14px'
-//                     }}>
-//                         Network ports and services mapped
-//                     </p>
-//                 </div>
-//             )}
-
-//             {/* CSS for spinner animation */}
-//             <style jsx>{`
-//                 @keyframes spin {
-//                     0% { transform: rotate(0deg); }
-//                     100% { transform: rotate(360deg); }
-//                 }
-//             `}</style>
-//         </div>
-//     );
-// };
-
-// export default NetworkScanningCard;
-
-// import React, { useState } from 'react';
-// import styles from './css/VulnerabilityAssessment.module.css';
-
-// const NetworkScanningCard = ({ onComplete, isDisabled, targetIP }) => {
-//     const [isScanning, setIsScanning] = useState(false);
-//     const [scanResults, setScanResults] = useState(null);
-//     const [isCardCompleted, setIsCardCompleted] = useState(false);
-
-//     console.log("Using targetIP:", targetIP);
-
-//     const handleStartScan = () => {
-//         setIsScanning(true);
-
-//         fetch('http://localhost:5000/network-scan', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({ ip_address: targetIP })
-//         })
-//         .then(response => {
-//             if (!response.ok) {
-//                 return response.json().then(errorData => {
-//                     throw new Error(errorData.message || 'Network scan failed');
-//                 });
-//             }
-//             return response.text(); // Get plain text response (e.g., nmap results)
-//         })
-//         .then(scanResultText => {
-//             setScanResults(scanResultText);
-
-//             // Download logic
-//             const blob = new Blob([scanResultText], { type: 'text/plain' });
-//             const url = window.URL.createObjectURL(blob);
-//             const a = document.createElement('a');
-//             a.style.display = 'none';
-//             a.href = url;
-//             a.download = `network_scan_${targetIP.replace(/\./g, '_')}.txt`;
-//             document.body.appendChild(a);
-//             a.click();
-//             window.URL.revokeObjectURL(url);
-
-//             setIsScanning(false);
-//             setIsCardCompleted(true);
-//             onComplete(scanResultText); // Send result to parent
-//         })
-//         .catch(error => {
-//             console.error('Network Scan Error:', error);
-//             alert(`Network Scan Failed: ${error.message}`);
-//             setIsScanning(false);
-//         });
-//     };
-
-//     return (
-//         <div className={`${styles.card} ${styles.networkCard} ${isDisabled ? styles.disabledCard : ''}`}>
-//             <h2 className={styles.cardTitle}>2. Network Scanning</h2>
-
-//             <div className={styles.cardContent}>
-//                 <p>Perform network scanning for {targetIP}</p>
-
-//                 <button
-//                     onClick={handleStartScan}
-//                     className={`${styles.cardButton} ${styles.networkScanButton}`}
-//                     disabled={isDisabled || isScanning || isCardCompleted}
-//                 >
-//                     {isCardCompleted
-//                         ? 'Completed'
-//                         : isScanning
-//                         ? 'Scanning...'
-//                         : 'Start Network Scan'}
-//                 </button>
-//             </div>
-
-//             {/* Processing overlay */}
-//             {isScanning && (
-//                 <div className={styles.networkProcessingOverlay}>
-//                     <div className={styles.networkProcessingSpinner}></div>
-//                     <h3 className={styles.networkProcessingTitle}>
-//                         Scanning Network
-//                     </h3>
-//                     <p className={styles.networkProcessingText}>
-//                         Discovering open ports and services...
-//                     </p>
-//                 </div>
-//             )}
-
-//             {/* Completion overlay */}
-//            {isCardCompleted && (
-//     <div className={styles.networkCompletionOverlay}>
-//         <div className={styles.networkCompletionIcon}>✓</div>
-//         <h3 className={styles.networkCompletionTitle}>Scan Complete</h3>
-//         <p className={styles.networkCompletionText}>Network ports and services mapped</p>
-//     </div>
-// )}
-
-//         </div>
-//     );
-// };
-
-// export default NetworkScanningCard;
-
 import React, { useState } from 'react';
-import styles from './../css/VulnerabilityAssessment.module.css';
 
 const NetworkScanningCard = ({ onComplete, isDisabled, targetIP }) => {
     const [isScanning, setIsScanning] = useState(false);
@@ -479,26 +197,69 @@ const NetworkScanningCard = ({ onComplete, isDisabled, targetIP }) => {
     };
 
     return (
-        <div className={`${styles.card} ${styles.networkCard} ${isDisabled ? styles.disabledCard : ''}`}>
-            <h2 className={styles.cardTitle}>2. Network Scanning</h2>
-            <div className={styles.cardContent}>
-<p>Enumerate all externally accessible services and ports to ensure secure configurations in the <b>{targetIP || 'target system'}</b>.</p>      
+        <div className={`
+            relative overflow-hidden
+            bg-white/95 backdrop-blur-xl
+            rounded-2xl shadow-lg hover:shadow-xl
+            transition-all duration-300 ease-out
+            border border-white/20
+            min-h-52 sm:min-h-60
+            p-5 sm:p-6
+            flex flex-col
+            ${isDisabled ? 'opacity-60 cursor-not-allowed' : 'hover:-translate-y-1.5'}
+            ${isDisabled ? 'bg-gray-100/70' : ''}
+            border-l-4 border-l-purple-600
+        `}>
+            {/* Shimmer effect */}
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-pulse" />
+            
+            {/* Card Title */}
+            <h2 className="
+                text-center text-lg sm:text-xl font-bold
+                text-purple-600 mb-5
+                pb-3 border-b-2 border-purple-600
+                tracking-wide
+            ">
+                2. Network Scanning
+            </h2>
+
+            {/* Card Content */}
+            <div className="flex flex-col flex-grow text-center justify-between items-center">
+                <p className="
+                    text-gray-600 text-sm sm:text-base
+                    leading-relaxed mb-4
+                    text-center
+                ">
+                    Enumerate all externally accessible services and ports to ensure secure configurations in the <b>{targetIP || 'target system'}</b>.
+                </p>
+
+                {/* Progress Display
                 {scanProgress && !isCompleted && (
-                    <div style={{ 
-                        margin: '10px 0', 
-                        padding: '8px', 
-                        background: '#e8f4fd', 
-                        borderRadius: '4px',
-                        fontSize: '14px',
-                        color: '#1976d2'
-                    }}>
+                    <div className="
+                        my-3 px-4 py-2
+                        bg-blue-50 border border-blue-200
+                        rounded-lg text-sm text-blue-700
+                        font-medium
+                    ">
                         {scanProgress}
                     </div>
-                )}
+                )} */}
 
                 <button
                     onClick={performNetworkScan}
-                    className={`${styles.cardButton} ${styles.networkButton}`}
+                    className={`
+                        w-full py-2.5 sm:py-3 px-4 sm:px-6
+                        mt-3 border-none rounded-lg
+                        text-xs sm:text-sm font-bold
+                        uppercase tracking-widest
+                        transition-all duration-300
+                        flex items-center justify-center
+                        ${!isDisabled && !isScanning && !isCompleted && targetIP
+                            ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5'
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        }
+                        disabled:opacity-60
+                    `}
                     disabled={isDisabled || isScanning || isCompleted || !targetIP}
                 >
                     {isCompleted 
@@ -509,21 +270,39 @@ const NetworkScanningCard = ({ onComplete, isDisabled, targetIP }) => {
                 </button>
             </div>
 
-            {isScanning && (
-                <div className={styles.networkProcessingOverlay}>
-                    <div className={styles.networkProcessingSpinner}></div>
-                    <h3 className={styles.networkProcessingTitle}>Scanning Network</h3>
-                    <p className={styles.networkProcessingText}>Discovering services and open ports...</p>
-                </div>
-            )}
+{isScanning && (
+  <div className="absolute inset-0 bg-white/98 backdrop-blur-md flex flex-col items-center justify-center rounded-2xl z-10 animate-fade-in">
+    {/* Spinner */}
+    <div className="relative w-16 h-16 mb-6">
+      <div className="absolute inset-0 rounded-full border-4 border-purple-200" />
+      <div className="absolute inset-0 rounded-full border-4 border-t-purple-600 animate-spin" />
+    </div>
+    <h3 className="text-purple-600 font-semibold text-base sm:text-lg mb-2">
+      Scanning Network
+    </h3>
+    <p className="text-gray-600 text-xs sm:text-sm text-center px-4">
+      Discovering services and open ports...
+    </p>
+  </div>
+)}
 
+
+
+
+
+            {/* Completion overlay */}
             {isCompleted && (
-                <div className={styles.networkCompletionOverlay}>
-                    <div className={styles.networkCompletionIcon}>✓</div>
-                    <h3 className={styles.networkCompletionTitle}>Scan Complete</h3>
-                    <p className={styles.networkCompletionText}>Network data saved as JSON file</p>
-                </div>
-            )}
+    <div className="absolute inset-0 bg-white/98 backdrop-blur-md flex flex-col items-center justify-center rounded-2xl z-10 animate-fade-in px-4">
+        <div className="w-14 h-14 mb-4 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg animate-pulse">
+            ✓
+        </div>
+        <h3 className="text-purple-600 font-semibold text-base sm:text-lg mb-2">Scan Complete</h3>
+        <p className="text-gray-600 text-xs sm:text-sm text-center">
+            Network data saved as JSON file
+        </p>
+    </div>
+)}
+
         </div>
     );
 };

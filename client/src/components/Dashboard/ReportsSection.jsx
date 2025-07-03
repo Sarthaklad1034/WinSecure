@@ -12,7 +12,6 @@ import {
     XCircle,
     RefreshCcw
 } from 'lucide-react';
-import './../css/ReportSection.css';
 
 const ReportsSection = () => {
     const [reports, setReports] = useState([]);
@@ -154,13 +153,33 @@ const ReportsSection = () => {
 
     const getSeverityBadge = (vulnCount) => {
         if (vulnCount === 0) {
-            return <span className="severity-badge severity-clean"><CheckCircle className="severity-icon" />Clean</span>;
+            return (
+                <span className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold border bg-green-50 text-green-800 border-green-200">
+                    <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                    Clean
+                </span>
+            );
         } else if (vulnCount <= 5) {
-            return <span className="severity-badge severity-low"><AlertTriangle className="severity-icon" />Low ({vulnCount})</span>;
+            return (
+                <span className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold border bg-yellow-50 text-yellow-800 border-yellow-200">
+                    <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
+                    Low ({vulnCount})
+                </span>
+            );
         } else if (vulnCount <= 15) {
-            return <span className="severity-badge severity-medium"><AlertTriangle className="severity-icon" />Medium ({vulnCount})</span>;
+            return (
+                <span className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold border bg-orange-50 text-orange-800 border-orange-200">
+                    <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
+                    Medium ({vulnCount})
+                </span>
+            );
         } else {
-            return <span className="severity-badge severity-high"><XCircle className="severity-icon" />High ({vulnCount})</span>;
+            return (
+                <span className="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold border bg-red-50 text-red-600 border-red-200">
+                    <XCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                    High ({vulnCount})
+                </span>
+            );
         }
     };
 
@@ -173,49 +192,52 @@ const ReportsSection = () => {
 
     if (loading) {
         return (
-            <div className="reports-section">
-                <div className="loading-container">
-                    <div className="loading-spinner"></div>
+            <div className="p-3 w-full max-w-full box-border font-sans text-sm text-gray-800">
+                <div className="flex justify-center items-center min-h-96">
+                    <div className="w-10 h-10 border-4 border-gray-200 border-t-gray-500 rounded-full animate-spin"></div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="reports-section">
+        <div className="p-3 w-full max-w-full box-border font-sans text-sm text-gray-800">
             {/* Header */}
-            <div className="section-header">
-                <div className="header-content">
-                    <h1 className="section-title">Security Reports</h1>
-                    <p className="section-description">Manage and review your vulnerability assessment reports</p>
+            <div className="flex items-start justify-between flex-wrap gap-6 mb-4">
+                <div className="flex flex-col gap-2">
+                    <h1 className="text-4xl font-bold text-gray-800 m-0 leading-tight">Security Reports</h1>
+                    <p className="text-gray-500 m-0 text-lg leading-6">Manage and review your vulnerability assessment reports</p>
                 </div>
-                <div className="header-actions">
-                    <button onClick={fetchReports} className="btn btn-primary">
-                        <RefreshCcw className="btn-icon" />
+                <div className="flex gap-4 items-center">
+                    <button 
+                        onClick={fetchReports} 
+                        className="flex items-center gap-2 px-7 py-3.5 border border-transparent rounded-xl font-medium cursor-pointer transition-all duration-200 text-base leading-none bg-gray-700 text-white border-gray-700 hover:bg-gray-800 hover:border-gray-800 hover:-translate-y-0.5 hover:shadow-lg"
+                    >
+                        <RefreshCcw className="w-4 h-4 flex-shrink-0" />
                         <span>Refresh</span>
                     </button>
                 </div>
             </div>
 
             {/* Controls */}
-            <div className="controls-panel">
-                <div className="controls-content">
-                    <div className="search-container">
-                        <Search className="search-icon" />
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
+                <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-8">
+                    <div className="relative flex-1 max-w-lg">
+                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                         <input
                             type="text"
                             placeholder="Search reports, IPs, or users..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="search-input"
+                            className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl text-base transition-all duration-200 bg-gray-50 focus:outline-none focus:border-gray-500 focus:shadow-sm focus:bg-white placeholder-gray-400"
                         />
                     </div>
 
-                    <div className="filters-container">
+                    <div className="flex gap-4 flex-wrap">
                         <select
                             value={filterConfig.vulnerabilityRange}
                             onChange={(e) => setFilterConfig(prev => ({...prev, vulnerabilityRange: e.target.value}))}
-                            className="filter-select"
+                            className="px-5 py-4 border border-gray-300 rounded-xl bg-gray-50 text-base cursor-pointer transition-all duration-200 min-w-40 text-gray-700 focus:outline-none focus:border-gray-500 focus:shadow-sm focus:bg-white hover:border-gray-400 hover:bg-white"
                         >
                             <option value="all">All Severity</option>
                             <option value="none">Clean (0)</option>
@@ -227,7 +249,7 @@ const ReportsSection = () => {
                         <select
                             value={filterConfig.dateRange}
                             onChange={(e) => setFilterConfig(prev => ({...prev, dateRange: e.target.value}))}
-                            className="filter-select"
+                            className="px-5 py-4 border border-gray-300 rounded-xl bg-gray-50 text-base cursor-pointer transition-all duration-200 min-w-40 text-gray-700 focus:outline-none focus:border-gray-500 focus:shadow-sm focus:bg-white hover:border-gray-400 hover:bg-white"
                         >
                             <option value="all">All Time</option>
                             <option value="today">Today</option>
@@ -241,105 +263,114 @@ const ReportsSection = () => {
 
             {/* Error State */}
             {error && (
-                <div className="error-banner">
-                    <div className="error-content">
-                        <XCircle className="error-icon" />
-                        <span className="error-text">{error}</span>
+                <div className="bg-red-50 border border-red-200 rounded-2xl p-5 my-4">
+                    <div className="flex items-center gap-3">
+                        <XCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+                        <span className="text-red-600 font-medium text-sm">{error}</span>
                     </div>
                 </div>
             )}
 
             {/* Reports Table */}
-            <div className="reports-table-container">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex-1 my-4">
                 {filteredAndSortedReports.length === 0 ? (
-                    <div className="empty-state">
-                        <FileText className="empty-icon" />
-                        <h3 className="empty-title">No Reports Found</h3>
-                        <p className="empty-description">
+                    <div className="text-center py-20 px-8">
+                        <FileText className="w-16 h-16 text-gray-400 mx-auto mb-6" />
+                        <h3 className="text-2xl font-semibold text-gray-800 mb-3">No Reports Found</h3>
+                        <p className="text-gray-500 text-lg leading-6">
                             {reports.length === 0 
                                 ? "You haven't generated any reports yet." 
                                 : "No reports match your current filters."}
                         </p>
                     </div>
                 ) : (
-                    <div className="table-wrapper">
-                        <table className="reports-table">
-                            <thead className="table-header">
+                    <div className="overflow-x-auto">
+                        <table className="w-full border-collapse table-auto">
+                            <thead className="bg-gray-50 border-b border-gray-200">
                                 <tr>
-                                    <th className="table-th">
-                                        <button onClick={() => handleSort('report_id')} className="sort-button">
+                                    <th className="px-6 py-5 text-center font-semibold text-gray-700 border-0 whitespace-nowrap align-middle">
+                                        <button onClick={() => handleSort('report_id')} className="flex items-center justify-center gap-2 bg-none border-0 cursor-pointer text-sm font-semibold text-gray-700 transition-colors duration-200 p-0 w-full text-center hover:text-gray-800">
                                             <span>Report ID</span>
                                             {sortConfig.key === 'report_id' && (
-                                                sortConfig.direction === 'asc' ? <SortAsc className="sort-icon" /> : <SortDesc className="sort-icon" />
+                                                sortConfig.direction === 'asc' ? <SortAsc className="w-4 h-4 flex-shrink-0" /> : <SortDesc className="w-4 h-4 flex-shrink-0" />
                                             )}
                                         </button>
                                     </th>
-                                    <th className="table-th">
-                                        <button onClick={() => handleSort('target_ip')} className="sort-button">
+                                    <th className="px-6 py-5 text-center font-semibold text-gray-700 border-0 whitespace-nowrap align-middle">
+                                        <button onClick={() => handleSort('target_ip')} className="flex items-center justify-center gap-2 bg-none border-0 cursor-pointer text-sm font-semibold text-gray-700 transition-colors duration-200 p-0 w-full text-center hover:text-gray-800">
                                             <span>Target IP</span>
                                             {sortConfig.key === 'target_ip' && (
-                                                sortConfig.direction === 'asc' ? <SortAsc className="sort-icon" /> : <SortDesc className="sort-icon" />
+                                                sortConfig.direction === 'asc' ? <SortAsc className="w-4 h-4 flex-shrink-0" /> : <SortDesc className="w-4 h-4 flex-shrink-0" />
                                             )}
                                         </button>
                                     </th>
-                                    <th className="table-th">
-                                        <button onClick={() => handleSort('generated_at')} className="sort-button">
+                                    <th className="px-6 py-5 text-center font-semibold text-gray-700 border-0 whitespace-nowrap align-middle">
+                                        <button onClick={() => handleSort('generated_at')} className="flex items-center justify-center gap-2 bg-none border-0 cursor-pointer text-sm font-semibold text-gray-700 transition-colors duration-200 p-0 w-full text-center hover:text-gray-800">
                                             <span>Generated At</span>
                                             {sortConfig.key === 'generated_at' && (
-                                                sortConfig.direction === 'asc' ? <SortAsc className="sort-icon" /> : <SortDesc className="sort-icon" />
+                                                sortConfig.direction === 'asc' ? <SortAsc className="w-4 h-4 flex-shrink-0" /> : <SortDesc className="w-4 h-4 flex-shrink-0" />
                                             )}
                                         </button>
                                     </th>
-                                    <th className="table-th">
-                                        <button onClick={() => handleSort('total_vulnerabilities')} className="sort-button">
+                                    <th className="px-6 py-5 text-center font-semibold text-gray-700 border-0 whitespace-nowrap align-middle">
+                                        <button onClick={() => handleSort('total_vulnerabilities')} className="flex items-center justify-center gap-2 bg-none border-0 cursor-pointer text-sm font-semibold text-gray-700 transition-colors duration-200 p-0 w-full text-center hover:text-gray-800">
                                             <span>Vulnerabilities</span>
                                             {sortConfig.key === 'total_vulnerabilities' && (
-                                                sortConfig.direction === 'asc' ? <SortAsc className="sort-icon" /> : <SortDesc className="sort-icon" />
+                                                sortConfig.direction === 'asc' ? <SortAsc className="w-4 h-4 flex-shrink-0" /> : <SortDesc className="w-4 h-4 flex-shrink-0" />
                                             )}
                                         </button>
                                     </th>
                                     {reports.some(r => r.username) && (
-                                        <th className="table-th"><span>User</span></th>
+                                        <th className="px-6 py-5 text-center font-semibold text-gray-700 border-0 whitespace-nowrap align-middle">
+                                            <span>User</span>
+                                        </th>
                                     )}
-                                    <th className="table-th table-th-right"><span>Actions</span></th>
+                                    <th className="px-6 py-5 text-center font-semibold text-gray-700 border-0 whitespace-nowrap align-middle">
+                                        <span>Actions</span>
+                                    </th>
                                 </tr>
                             </thead>
-                            <tbody className="table-body">
+                            <tbody className="bg-white">
                                 {filteredAndSortedReports.map((report) => (
-                                    <tr key={report.id} className="table-row">
-                                        <td className="table-td">
-                                            <div className="table-cell-content">
-                                                <FileText className="table-icon" />
-                                                <span className="report-id">{report.report_id}</span>
+                                    <tr key={report.id} className="border-b border-gray-100 transition-colors duration-150 hover:bg-gray-50 last:border-0">
+                                        <td className="px-6 py-5 align-middle text-center">
+                                            <div className="flex items-center justify-center gap-3">
+                                                <FileText className="w-4.5 h-4.5 text-gray-400 flex-shrink-0" />
+                                                <span className="text-sm font-medium text-gray-800 font-mono">{report.report_id}</span>
                                             </div>
                                         </td>
-                                        <td className="table-td">
-                                            <span className="ip-badge">{report.target_ip}</span>
+                                        <td className="px-6 py-5 align-middle text-center">
+                                            <span className="text-sm text-gray-700 font-mono bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 font-medium inline-block">{report.target_ip}</span>
                                         </td>
-                                        <td className="table-td">
-                                            <div className="date-content">
-                                                <Calendar className="date-icon" />
+                                        <td className="px-6 py-5 align-middle text-center">
+                                            <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+                                                <Calendar className="w-4 h-4 flex-shrink-0" />
                                                 {formatDate(report.generated_at)}
                                             </div>
                                         </td>
-                                        <td className="table-td">{getSeverityBadge(report.total_vulnerabilities)}</td>
+                                        <td className="px-6 py-5 align-middle text-center">{getSeverityBadge(report.total_vulnerabilities)}</td>
                                         {report.username && (
-                                            <td className="table-td">
-                                                <span>{report.username}</span>
+                                            <td className="px-6 py-5 align-middle text-center">
+                                                <span className="text-sm text-gray-500 font-medium">{report.username}</span>
                                             </td>
                                         )}
-                                        <td className="table-td table-td-right">
-                                            <div className="action-buttons">
-                                                <button onClick={() => {
-                                                    // Temporarily disabled
-                                                    alert("Feature not available at the moment. We're working on it!");
-                                                    // window.open(`/reports/${report.report_id}`, '_blank'); // Keep this commented for future
-                                                }}
-                                                className="action-btn action-btn-view" title="View Report">
-                                                    <Eye className="action-icon" />
+                                        <td className="px-6 py-5 align-middle text-center">
+                                            <div className="flex gap-2 justify-center items-center">
+                                                <button 
+                                                    onClick={() => {
+                                                        alert("Feature not available at the moment. We're working on it!");
+                                                    }}
+                                                    className="flex items-center justify-center w-9 h-9 border border-gray-200 rounded-lg bg-white cursor-pointer transition-all duration-200 text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:-translate-y-0.5 hover:text-gray-700 hover:border-gray-500"
+                                                    title="View Report"
+                                                >
+                                                    <Eye className="w-4 h-4" />
                                                 </button>
-                                                <button onClick={() => handleDelete(report.report_id)} className="action-btn action-btn-delete" title="Delete Report">
-                                                    <Trash2 className="action-icon" />
+                                                <button 
+                                                    onClick={() => handleDelete(report.report_id)} 
+                                                    className="flex items-center justify-center w-9 h-9 border border-gray-200 rounded-lg bg-white cursor-pointer transition-all duration-200 text-red-600 hover:border-red-300 hover:bg-red-50 hover:-translate-y-0.5 hover:text-red-700 hover:border-red-600"
+                                                    title="Delete Report"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
                                                 </button>
                                             </div>
                                         </td>
@@ -353,7 +384,7 @@ const ReportsSection = () => {
 
             {/* Results Summary */}
             {filteredAndSortedReports.length > 0 && (
-                <div className="results-summary">
+                <div className="bg-white rounded-xl px-6 py-4 text-center text-gray-500 text-sm font-medium border border-gray-200 mt-4">
                     Showing {filteredAndSortedReports.length} of {reports.length} reports
                 </div>
             )}
