@@ -1,0 +1,34 @@
+{
+    "name": "winsecure-desktop",
+    "version": "1.0.0",
+    "description": "WinSecure - Agent-less Windows Vulnerability Scanner",
+    "main": "electron/main.js",
+    "homepage": "./",
+    "author": "InfinityX Team",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "electron": "electron .",
+        "electron-dev": "cross-env NODE_ENV=development concurrently \"npm run start:server\" \"wait-on http://localhost:5000 && electron .\"",
+        "start:server": "cd server && python app.py",
+        "build:client": "cd client && npm run build",
+        "build:server": "node scripts/setup-python.js",
+        "build": "npm run build:client && npm run build:server",
+        "dist": "npm run build && electron-builder",
+        "dist:win": "npm run build && electron-builder --win",
+        "dist:mac": "npm run build && electron-builder --mac",
+        "dist:linux": "npm run build && electron-builder --linux"
+    },
+    "dependencies": {
+        "electron-store": "^8.1.0",
+        "node-fetch": "^3.3.0"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2",
+        "cross-env": "^7.0.3",
+        "electron": "^27.0.0",
+        "electron-builder": "^24.6.4",
+        "fs-extra": "^11.1.1",
+        "wait-on": "^7.2.0"
+    }
+}

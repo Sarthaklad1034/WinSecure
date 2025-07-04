@@ -1,34 +1,83 @@
-# === Node (React - Client) ===
+# ================================
+# 🚀 Electron
+# ================================
+dist/
+*.asar
+*.tsbuildinfo
+
+# Electron dependencies and logs
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ================================
+# ⚛️ React (Client - Frontend)
+# ================================
 client/node_modules/
 client/build/
 client/dist/
 client/.env
+client/.next/
+client/.cache/
 
-# === Python (Flask - Server) ===
-server/.venv/
+# Vite/Webpack artifacts (if used)
+.client-temp/
+.client-output/
+
+# ================================
+# 🐍 Flask (Python - Backend)
+# ================================
 server/__pycache__/
-server/*.db
+server/*.pyc
+server/*.pyo
+server/*.pyd
+server/.venv/
 server/.env
+server/*.db
 
-# === Python general ===
-*.pyc
-*.pyo
-*.pyd
-__pycache__/
-*.egg-info/
-dist/
+# If your DB is in resources/server or similar
+resources/server/*.db
+
+# ================================
+# 🗃️ SQLite DB (anywhere)
+# ================================
+*.db
+*.sqlite3
+*.sqlite
+*.db-wal
+*.db-shm
+*.db-journal
+
+# ================================
+# 🔧 Scripts & Build
+# ================================
+scripts/__pycache__/
+scripts/*.pyc
+scripts/*.log
+
+# Build output
 build/
+out/
+.cache/
+coverage/
+*.spec
+*.exe
+*.dll
+*.manifest
 
-# === Logs and temporary files ===
-*.log
-*.tmp
-*.swp
-*.bak
-
-# === Editor/IDE configs ===
+# ================================
+# 📝 Misc / Editor Config
+# ================================
+.env
+.env.local
 .idea/
 .vscode/
+*.swp
+*.bak
+*.tmp
 
-# === OS system files ===
+# macOS / Windows junk
 .DS_Store
 Thumbs.db

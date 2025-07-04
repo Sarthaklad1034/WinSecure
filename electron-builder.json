@@ -1,0 +1,53 @@
+{
+  "productName": "WinSecure",
+  "appId": "com.infinityx.winsecure",
+  "directories": {
+    "output": "dist"
+  },
+  "files": ["electron/**/*", "package.json"],
+  "extraResources": [
+    {
+      "from": "resources/python",
+      "to": "python",
+      "filter": ["**/*"]
+    },
+    {
+      "from": "resources/server",
+      "to": "server",
+      "filter": ["**/*"]
+    },
+    {
+      "from": "resources/react",
+      "to": "react",
+      "filter": ["**/*"]
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      }
+    ],
+    "icon": "resources/icon.ico",
+    "publisherName": "InfinityX Team"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "WinSecure"
+  },
+  "mac": {
+    "target": "dmg",
+    "icon": "resources/icon.icns",
+    "category": "public.app-category.developer-tools"
+  },
+  "linux": {
+    "target": "AppImage",
+    "icon": "resources/icon.png",
+    "category": "Development"
+  }
+}
